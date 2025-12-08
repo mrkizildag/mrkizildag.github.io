@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Zoa - Where Athletes Connect & Compete. Find your game. Book your match. Level up your sports life." />
     <title>Zoa - Join the Community of Athletes</title>
+    <script>
+      // Handle redirect from 404.html
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.pathname) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
     <style>
       * {
         margin: 0;
