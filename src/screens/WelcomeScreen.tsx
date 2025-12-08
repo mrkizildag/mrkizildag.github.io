@@ -91,26 +91,6 @@ export default function WelcomeScreen() {
             Sign In
           </button>
         </div>
-
-        {/* Footer Stats */}
-        <div className="footer-container">
-          <div className="stats-container">
-            <div className="stat-item">
-              <div className="stat-number">10K+</div>
-              <div className="stat-label">Players</div>
-            </div>
-            <div className="stat-divider" />
-            <div className="stat-item">
-              <div className="stat-number">500+</div>
-              <div className="stat-label">Courts</div>
-            </div>
-            <div className="stat-divider" />
-            <div className="stat-item">
-              <div className="stat-number">50K+</div>
-              <div className="stat-label">Sessions</div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )
