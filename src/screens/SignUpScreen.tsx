@@ -50,10 +50,10 @@ export default function SignUpScreen() {
       setSuccess(true)
       setError('')
       
-      // Show success message
+      // Redirect to thank you page
       setTimeout(() => {
-        alert('Account created successfully! Please check your email to verify your account.')
-      }, 100)
+        navigate('/thank-you')
+      }, 500)
       
     } catch (error: any) {
       setError(error.message || 'Failed to create account')
@@ -135,7 +135,7 @@ export default function SignUpScreen() {
 
         <div className="signup-footer">
           <span className="footer-text">Already have an account? </span>
-          <button className="footer-link" onClick={() => navigate('/')}>
+          <button className="footer-link" onClick={() => navigate('/login')}>
             Sign in
           </button>
         </div>

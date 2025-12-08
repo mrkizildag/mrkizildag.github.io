@@ -86,7 +86,7 @@ export default function WelcomeScreen() {
 
           <button
             className="secondary-button"
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/login')}
           >
             Sign In
           </button>
