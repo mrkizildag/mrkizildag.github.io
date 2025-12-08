@@ -65,13 +65,13 @@ export default function WelcomeScreen() {
         {/* Tagline */}
         <div className="tagline-container">
           <h2 className="tagline">
-            Where Athletes <span className="tagline-highlight">Connect</span> & Compete
+            Find Your Best <span className="tagline-highlight">Workout Partner</span>
           </h2>
         </div>
 
         {/* Description */}
         <p className="description">
-          Find your game. Book your match. Level up your sports life.
+          Build your own sports community. Rent courts. Play at your level.
         </p>
 
         {/* Action Buttons */}
@@ -97,17 +97,17 @@ export default function WelcomeScreen() {
           <div className="stats-container">
             <div className="stat-item">
               <div className="stat-number">10K+</div>
-              <div className="stat-label">Athletes</div>
+              <div className="stat-label">Players</div>
             </div>
             <div className="stat-divider" />
             <div className="stat-item">
               <div className="stat-number">500+</div>
-              <div className="stat-label">Venues</div>
+              <div className="stat-label">Courts</div>
             </div>
             <div className="stat-divider" />
             <div className="stat-item">
               <div className="stat-number">50K+</div>
-              <div className="stat-label">Matches</div>
+              <div className="stat-label">Sessions</div>
             </div>
           </div>
         </div>
