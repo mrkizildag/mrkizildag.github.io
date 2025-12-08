@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CheckCircle, Sparkles } from 'lucide-react'
+import { CheckCircle, Sparkles, Award, Star } from 'lucide-react'
 import './ThankYouScreen.css'
 
 export default function ThankYouScreen() {
@@ -25,41 +25,52 @@ export default function ThankYouScreen() {
         </h1>
 
         <p className="thankyou-message">
-          Thank you for signing up! We've sent a confirmation email to verify your account.
+          Thank you for signing up! You're now part of our exclusive early access community.
         </p>
+
+        <div className="badge-container">
+          <div className="early-user-badge">
+            <div className="badge-icon-wrapper">
+              <Award size={32} className="badge-icon" />
+              <Star size={16} className="badge-star badge-star-1" />
+              <Star size={12} className="badge-star badge-star-2" />
+              <Star size={14} className="badge-star badge-star-3" />
+            </div>
+            <div className="badge-content">
+              <h3 className="badge-title">Early User</h3>
+              <p className="badge-subtitle">Founding Member</p>
+            </div>
+          </div>
+          <p className="badge-description">
+            🎉 You've earned the <strong>Early User Badge</strong> that will be displayed on your profile!
+          </p>
+        </div>
 
         <div className="info-box">
           <p className="info-text">
-            <strong>Next steps:</strong>
+            <strong>What's next?</strong>
           </p>
-          <ol className="steps-list">
-            <li>Check your email inbox</li>
-            <li>Click the verification link</li>
-            <li>Start connecting with athletes!</li>
-          </ol>
+          <ul className="steps-list">
+            <li>You'll receive an email notification when zoa goes live</li>
+            <li>Early users get priority access to all features</li>
+            <li>Your feedback will help shape the future of zoa</li>
+          </ul>
         </div>
 
         <div className="button-container">
           <button
             className="primary-button"
-            onClick={() => navigate('/login')}
-          >
-            <span>Go to Sign In</span>
-            <Sparkles size={20} className="button-icon" />
-          </button>
-
-          <button
-            className="secondary-button"
             onClick={() => navigate('/')}
           >
-            Back to Home
+            <span>Back to Home</span>
+            <Sparkles size={20} className="button-icon" />
           </button>
         </div>
 
         <p className="help-text">
-          Didn't receive the email? Check your spam folder or{' '}
-          <button className="help-link" onClick={() => navigate('/signup')}>
-            try signing up again
+          Have questions?{' '}
+          <button className="help-link" onClick={() => navigate('/')}>
+            Contact us
           </button>
         </p>
       </div>
