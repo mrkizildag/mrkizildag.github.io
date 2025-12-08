@@ -71,7 +71,7 @@ export default function SignUpScreen() {
 
         <div className="signup-header">
           <h1 className="signup-title">Create account</h1>
-          <p className="signup-subtitle">Join the community of athletes</p>
+          <p className="signup-subtitle">Join the community</p>
         </div>
 
         <form className="signup-form" onSubmit={handleSignUp}>
