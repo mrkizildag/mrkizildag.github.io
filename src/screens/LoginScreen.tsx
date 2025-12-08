@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import { isAdminEmail } from '../lib/adminConfig'
 import './LoginScreen.css'
 
 export default function LoginScreen() {
@@ -34,7 +35,15 @@ export default function LoginScreen() {
 
       if (signInError) throw signInError
       
-      alert('Login successful!')
+      // Check if user is admin
+      if (!isAdminEmail(email)) {
+        // Non-admin users get redirected to thank you page
+        navigate('/thank-you')
+        return
+      }
+      
+      // Admin users get success message (you can redirect to admin dashboard later)
+      alert('Admin login successful!')
       
     } catch (error: any) {
       setError(error.message || 'Failed to sign in')
