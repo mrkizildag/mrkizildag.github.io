@@ -4,7 +4,7 @@ import SignUpScreen from './screens/SignUpScreen'
 
 function App() {
   return (
-    <Router basename="/v0-zoa-public-web">
+    <Router>
       <Routes>
         <Route path="/" element={<WelcomeScreen />} />
         <Route path="/signup" element={<SignUpScreen />} />
