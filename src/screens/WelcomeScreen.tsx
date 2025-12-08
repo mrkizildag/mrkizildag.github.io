@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Sparkles, Zap, Trophy, Target } from 'lucide-react'
+import { Sparkles, Zap, Trophy, Target, LucideProps } from 'lucide-react'
 import { theme } from '../theme/colors'
 import './WelcomeScreen.css'
 
@@ -9,7 +9,7 @@ interface FloatingParticleProps {
   duration: number
   startX: number
   startY: number
-  icon: React.ComponentType<{ size?: number; color?: string; className?: string }>
+  icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>
 }
 
 function FloatingParticle({ delay, duration, startX, startY, icon: Icon }: FloatingParticleProps) {
