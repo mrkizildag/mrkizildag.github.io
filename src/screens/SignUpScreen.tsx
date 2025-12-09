@@ -42,6 +42,7 @@ export default function SignUpScreen() {
           data: {
             display_name: name,
           },
+          emailRedirectTo: `${window.location.origin}/thank-you`,
         },
       })
 
