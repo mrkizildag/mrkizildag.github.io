@@ -35,6 +35,7 @@ export default function SignUpScreen() {
 
     setIsLoading(true)
     try {
+      // Create auth user - will trigger webhook to save to waitlist_signups
       const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -84,7 +85,7 @@ export default function SignUpScreen() {
           
           {success && (
             <div className="success-message">
-              Account created! Check your email to verify.
+              You're on the waitlist! We'll notify you when zoa launches.
             </div>
           )}
 
