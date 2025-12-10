@@ -65,7 +65,7 @@ export default function WelcomeScreen() {
         {/* Tagline */}
         <div className="tagline-container">
           <h2 className="tagline">
-            Find Your Best <span className="tagline-highlight">Workout Partner</span>
+            Find Your Best <span className="tagline-highlight">Sports Partner</span>
           </h2>
         </div>
 
