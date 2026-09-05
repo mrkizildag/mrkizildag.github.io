@@ -24,10 +24,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Copy everything at the repo root except scaffolding and scratch, so a
+      # new file (robots.txt, a sitemap, a Search Console verification page)
+      # ships automatically instead of being silently dropped by a name list.
       - name: Assemble site
         run: |
           mkdir -p _site
-          cp index.html 404.html favicon.svg portrait.jpg cv.pdf _site/
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '_site' \
+            --exclude 'variants' \
+            --exclude 'README.md' \
+            ./ _site/
+          echo "--- shipping ---" && ls -la _site/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
