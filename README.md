@@ -1,156 +1,55 @@
-# Zoa Public Landing Page
+# mrkizildag.github.io
 
-Public landing page for Zoa sports app - where athletes connect and compete.
+Personal site. One static page, no build step, no dependencies, no webfonts.
 
-## 🚀 Quick Start
+| File | What it is |
+| --- | --- |
+| `index.html` | The page. Content and styles both live here. |
+| `404.html` | Not-found page. |
+| `favicon.svg` | Monogram. |
+| `portrait.jpg` | 640&times;960, 66 KB. |
+| `.github/workflows/deploy.yml` | Copies those four files to GitHub Pages on push to `main`. |
 
-### Prerequisites
-- Node.js 18+ or pnpm installed
+## Design constraints
 
-### Installation
+Two rules the page is built around, both easy to break by accident:
 
-1. Install dependencies:
+1. **It must never scroll** — no vertical or horizontal overflow at any
+   viewport. Spacing and type vary continuously with viewport height
+   (`--u` and `--step`) rather than stepping through fixed `max-height`
+   tiers, because fixed steps always leave a size that falls between them.
+   The binding cases are landscape phone (844&times;390) and short laptop
+   (1024&times;500), not the obvious desktop and phone sizes.
+2. **No webfonts.** The page is set in the system monospace stack. Beyond
+   costing nothing to load, this removes a real failure mode: a fallback
+   face usually sets *wider* than the webfont it replaces, which makes the
+   page taller and can break rule 1 whenever the font CDN is unreachable.
+
+`.portrait` pins `height: auto` in CSS. Without it the `height="960"` HTML
+attribute overrides `aspect-ratio` and renders the image 960px tall.
+
+## Running it locally
+
 ```bash
-npm install
-# or
-pnpm install
+python3 -m http.server 8000
 ```
 
-2. Create a `.env` file from the example:
+Then open <http://localhost:8000>.
+
+## Checking the no-scroll rule
+
+`variants/_check.html` (git-ignored, never deployed) loads the page in an
+exactly-sized iframe and reports real overflow. Note that headless Chrome
+clamps its window to ~500px minimum width, so screenshots at small widths
+are misleading — measure through the iframe instead.
+
 ```bash
-cp .env.example .env
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --disable-gpu --virtual-time-budget=6000 \
+  --user-data-dir=/tmp/chrome-throwaway --password-store=basic \
+  --dump-dom "http://localhost:8000/variants/_check.html?f=../index.html&w=844&h=390" \
+  2>/dev/null | grep -o '<title>[^<]*</title>'
 ```
 
-3. Add your Supabase credentials to `.env`:
-```env
-VITE_SUPABASE_URL=your_supabase_url_here
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-```
-
-### Development
-
-Run the development server:
-```bash
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-### Build
-
-Build for production:
-```bash
-npm run build
-```
-
-Preview the production build:
-```bash
-npm run preview
-```
-
-## 📦 Deploy to GitHub Pages
-
-### Setup
-
-1. Create a new empty GitHub repository
-2. In your repository, go to Settings > Pages
-3. Under "Build and deployment", select "GitHub Actions" as the source
-
-### Deploy
-
-1. Initialize git (if not already done):
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-```
-
-2. Add your remote repository:
-```bash
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-```
-
-3. Create `.github/workflows/deploy.yml`:
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: ['main']
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Build
-        run: npm run build
-        env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist'
-      
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
-
-4. Add your Supabase credentials as repository secrets:
-   - Go to Settings > Secrets and variables > Actions
-   - Add `VITE_SUPABASE_URL`
-   - Add `VITE_SUPABASE_ANON_KEY`
-
-5. Push to GitHub:
-```bash
-git push -u origin main
-```
-
-Your site will be automatically deployed to `https://YOUR_USERNAME.github.io/YOUR_REPO/`
-
-## 🛠️ Tech Stack
-
-- **React 18** - UI framework
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **React Router** - Routing
-- **Supabase** - Backend and authentication
-- **Lucide React** - Icons
-
-## 📱 Features
-
-- Welcome/Landing screen with animations
-- Sign up page with Supabase authentication
-- Responsive design
-- Dark theme
-- Form validation
-
-## 📄 License
-
-Private - All rights reserved
+`--password-store=basic` and `--user-data-dir` matter: without them Chrome
+opens your real profile and triggers a macOS Keychain prompt.

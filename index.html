@@ -1,45 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Find your best sports partner. Build your own sports community. Rent courts. Play at your level." />
-    <meta name="keywords" content="sports partner, sports community, fitness, court rental, sports booking, play sports" />
-    <meta property="og:title" content="zoa - Find Your Best Sports Partner" />
-    <meta property="og:description" content="Build your own sports community. Rent courts. Play at your level." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="zoa - Find Your Best Sports Partner" />
-    <meta name="twitter:description" content="Build your own sports community. Rent courts. Play at your level." />
-    <title>zoa - Find Your Best Sports Partner</title>
-    <script>
-      // Handle redirect from 404.html
-      (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.pathname) {
-          history.replaceState(null, null, redirect);
-        }
-      })();
-    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mete Reis Kizildag</title>
+    <meta
+      name="description"
+      content="Mete Reis Kizildag — B.Sc. Computer Science at the Technical University of Munich, founding engineer at nemox, and head of Technology &amp; Operations at START Munich."
+    />
+    <meta name="author" content="Mete Reis Kizildag" />
+    <link rel="icon" href="/favicon.svg" />
+
     <style>
-      * {
-        margin: 0;
-        padding: 0;
+      /* ------------------------------------------------------------------
+         F-mono — the whole page set in the system monospace stack on a
+         strict 8/12/16/24/36/48 baseline scale. No webfont request, so no
+         FOUT and no fallback-wider-than-webfont overflow risk.
+         ------------------------------------------------------------------ */
+
+      :root {
+        color-scheme: light dark;
+
+        --ground: #e7eaed;
+        --name: #1e2125;
+        --body: #3b4149;
+        --muted: #697381; /* AA-large only — decorative use, never small text */
+        --underline: #8c95a1;
+        --hairline: #c6ccd2;
+
+        --mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+          Consolas, "DejaVu Sans Mono", monospace;
+
+        /* The baseline unit. 8px at full size, and it varies CONTINUOUSLY
+           with the viewport so no height can fall between two fixed tiers.
+           Every gap below is an integer-ish multiple of it: 1u 1.5u 2u 3u
+           4.5u 6u  ->  8 12 16 24 36 48. */
+        --u: clamp(2.4px, min(0.55vh + 0.25vw, 1.4vh), 8px);
+
+        /* Mixed-unit type scale (the vh term is the point: on a landscape
+           phone a pure-vw ramp GROWS and overflows, a mixed one shrinks). */
+        --step: clamp(
+          0.72rem,
+          min(0.3rem + 0.45vw + 0.55vh + 0.3vmin, 2.9vh),
+          1rem
+        );
+
+        --lead: 1.5; /* 16px type on 24px leading */
+      }
+
+      /* Dark palette lives in one custom-property block, applied either by the
+         system preference or by an explicit [data-theme] from the toggle. The
+         :not([data-theme="light"]) guard lets an explicit light choice win
+         over a dark system setting. */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --ground: #16191c;
+          --name: #e9ecef;
+          --body: #c2c9d1;
+          --muted: #7e8894;
+          --underline: #6c7683;
+          --hairline: #2b3036;
+        }
+
+        /* The studio backdrop is far lighter than the dark ground and glares,
+           so take it down to sit in the page rather than on it. */
+        :root:not([data-theme="light"]) .portrait {
+          filter: brightness(0.84) contrast(1.03);
+        }
+      }
+
+      :root[data-theme="dark"] {
+        --ground: #16191c;
+        --name: #e9ecef;
+        --body: #c2c9d1;
+        --muted: #7e8894;
+        --underline: #6c7683;
+        --hairline: #2b3036;
+      }
+
+      :root[data-theme="dark"] .portrait {
+        filter: brightness(0.84) contrast(1.03);
+      }
+
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
       }
+
+      html {
+        height: 100%;
+      }
+
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-          sans-serif;
+        margin: 0;
+        min-height: 100svh;
+        height: 100svh;
+        display: grid;
+        place-items: center;
+        padding-inline: clamp(1rem, 3.5vw, 3rem);
+        padding-block: calc(var(--u) * 3);
+        background: var(--ground);
+        color: var(--body);
+        font-family: var(--mono);
+        font-size: var(--step);
+        line-height: var(--lead);
+        font-weight: 400;
+        letter-spacing: -0.005em;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+      }
+
+      main {
+        width: 100%;
+        /* Mono has one advance width, so the measure is honestly countable.
+           62 characters keeps the bio at 3–4 lines, not 6. */
+        max-width: 62ch;
+        max-height: 100%;
+      }
+
+      /* ---- header: the name block, then the portrait in the right corner ---- */
+
+      header {
+        display: flex;
+        align-items: center;
+        gap: calc(var(--u) * 3);
+      }
+
+      /* The name holds the left edge; margin-left:auto pushes the portrait to
+         the right corner of the measure, flush with the rules below it. */
+      .portrait {
+        display: block;
+        flex: 0 0 auto;
+        margin-left: auto;
+        /* answers to whichever axis is scarcer; never larger than 116x116 */
+        width: clamp(56px, min(13vh, 16vw), 116px);
+        aspect-ratio: 1 / 1;
+        height: auto; /* beats the HTML height attribute */
+        object-fit: cover;
+        object-position: 50% 16%;
+        background: var(--hairline);
+        border: 1px solid var(--hairline);
+      }
+
+      /* name and place stay a coupled pair, optically centred against the
+         portrait so the leftover height splits evenly instead of pooling */
+      .namebox {
+        min-width: 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.375em;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: var(--name);
+      }
+
+      /* A label, not a paragraph — so it is never justified or hyphenated. */
+      .place {
+        margin: calc(var(--u) * 1) 0 0;
+        color: var(--body);
+        text-align: left;
+        hyphens: none;
+      }
+
+      /* ---- the rules are the grid made visible ---- */
+
+      .rule {
+        border: 0;
+        border-top: 1px solid var(--hairline);
+        margin: calc(var(--u) * 3) 0;
+      }
+
+      p {
+        margin: 0;
+        text-align: justify;
+        /* Monospace has one advance width, so justification opens word gaps
+           rather than stretching glyphs; hyphenation keeps those gaps small. */
+        hyphens: auto;
+        -webkit-hyphens: auto;
+      }
+
+      p + p {
+        margin-top: calc(var(--u) * 1.5);
+      }
+
+      /* ---- work list: one line per item, divided on the baseline ---- */
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      li + li {
+        margin-top: calc(var(--u) * 1);
+        padding-top: calc(var(--u) * 1);
+        border-top: 1px solid var(--hairline);
+      }
+
+      /* ---- contact row ---- */
+
+      .contact {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: calc(var(--u) * 4);
+        row-gap: calc(var(--u) * 1);
+      }
+
+      /* ---- links: full-ink text, greyed underline. No blue anywhere. ---- */
+
+      a {
+        color: var(--name);
+        text-decoration: underline;
+        text-decoration-thickness: from-font;
+        text-underline-offset: 3px;
+        text-decoration-color: var(--underline);
+        transition: text-decoration-color 120ms ease;
+      }
+
+      p a {
+        color: var(--body);
+      }
+
+      a:hover {
+        text-decoration-color: var(--body);
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--name);
+        outline-offset: 3px;
+        border-radius: 1px;
+      }
+
+      /* ---- slope adjustments only; never fixed values ---- */
+
+      /* narrow: wrapped lines eat more height, so steepen the unit's response */
+      @media (max-width: 380px) {
+        :root {
+          --u: clamp(2px, min(0.42vh + 0.2vw, 1.3vh), 6px);
+        }
+        header {
+          gap: calc(var(--u) * 2);
+        }
+      }
+
+      /* short: close the leading, a lever the spacing unit cannot reach */
+      @media (max-height: 560px) {
+        :root {
+          --lead: 1.4;
+          --u: clamp(2px, min(0.5vh + 0.2vw, 1.3vh), 7px);
+        }
+      }
+
+      @media (max-height: 420px) {
+        :root {
+          --lead: 1.35;
+          --u: clamp(1.6px, min(0.42vh + 0.16vw, 1.1vh), 6px);
+        }
+      }
+
+      /* ---- theme toggle ----
+         Fixed to the viewport corner so it costs the layout no height and
+         cannot affect the no-scroll fit. */
+
+      .theme {
+        position: fixed;
+        top: calc(var(--u) * 2);
+        right: calc(var(--u) * 2);
+        z-index: 1;
+        appearance: none;
+        border: 1px solid var(--hairline);
+        border-radius: 2px;
+        background: transparent;
+        color: var(--body);
+        font: inherit;
+        font-size: 0.8em;
+        line-height: 1;
+        padding: calc(var(--u) * 1) calc(var(--u) * 1.5);
+        cursor: pointer;
+        transition: border-color 120ms ease, color 120ms ease;
+      }
+
+      .theme:hover {
+        color: var(--name);
+        border-color: var(--underline);
+      }
+
+      .theme:focus-visible {
+        outline: 2px solid var(--name);
+        outline-offset: 2px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
       }
     </style>
   </head>
+
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Hidden until the script runs: without JS it would be a dead control,
+         and its label is only correct once the scheme is known. -->
+    <button class="theme" type="button" hidden>Light</button>
+
+    <main>
+      <header>
+        <div class="namebox">
+          <h1>Mete Reis Kizildag</h1>
+          <p class="place">Munich, Germany</p>
+        </div>
+        <img
+          class="portrait"
+          src="/portrait.jpg"
+          width="640"
+          height="960"
+          alt="Mete Reis Kizildag"
+          decoding="async"
+        />
+      </header>
+
+      <hr class="rule" />
+
+      <p>
+        I&rsquo;m a B.Sc. Computer Science student at the
+        <a href="https://www.tum.de/en/">Technical University of Munich</a> and a
+        founding engineer at <a href="https://nemox.ai">nemox</a>, building AI
+        tools for freight forwarders.
+      </p>
+      <p>
+        I lead the Technology &amp; Operations Department at
+        <a href="https://www.startmunich.de/">START Munich</a>, building
+        software for Munich&rsquo;s leading entrepreneurship club.
+      </p>
+
+      <hr class="rule" />
+
+      <ul>
+        <li>Applied AI in software systems</li>
+        <li>Internal tooling and project management</li>
+        <li>Agent-assisted personal infrastructure</li>
+      </ul>
+
+      <hr class="rule" />
+
+      <nav class="contact">
+        <a href="https://github.com/mrkizildag">GitHub</a>
+        <a href="https://www.linkedin.com/in/metereiskizildag/">LinkedIn</a>
+        <a href="/cv.pdf">CV</a>
+        <a href="mailto:mrkizildag@gmail.com">mrkizildag@gmail.com</a>
+      </nav>
+    </main>
+
+    <script>
+      // Light/dark toggle.
+      //
+      // With nothing stored, `mode` stays null: no data-theme is set, so the
+      // prefers-color-scheme media query governs and the page follows the OS
+      // — including a change made while the page is open. The first manual
+      // click pins a choice and the system stops governing from then on.
+      //
+      // The label names the theme currently showing, not the one it switches
+      // to, so on a light system it reads "Light" before any interaction.
+      (function () {
+        var root = document.documentElement;
+        var button = document.querySelector(".theme");
+        var query = window.matchMedia("(prefers-color-scheme: dark)");
+        var mode = null;
+
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "light" || stored === "dark") mode = stored;
+        } catch (e) {
+          // Private windows and blocked site data throw on access.
+        }
+
+        function isDark() {
+          return mode ? mode === "dark" : query.matches;
+        }
+
+        function apply() {
+          if (mode) root.setAttribute("data-theme", mode);
+          var dark = isDark();
+          button.hidden = false;
+          button.textContent = dark ? "Dark" : "Light";
+          button.setAttribute(
+            "aria-label",
+            dark ? "Dark theme. Switch to light." : "Light theme. Switch to dark."
+          );
+        }
+
+        apply();
+
+        button.addEventListener("click", function () {
+          mode = isDark() ? "light" : "dark";
+          try {
+            localStorage.setItem("theme", mode);
+          } catch (e) {
+            // Not persisting is fine; the toggle still works this visit.
+          }
+          apply();
+        });
+
+        // Only fires while no manual choice has been made.
+        query.addEventListener("change", function () {
+          if (!mode) apply();
+        });
+      })();
+    </script>
   </body>
 </html>
