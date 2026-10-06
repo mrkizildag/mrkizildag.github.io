@@ -6,7 +6,7 @@
     <title>Mete Reis Kizildag</title>
     <meta
       name="description"
-      content="Mete Reis Kizildag — B.Sc. Computer Science at the Technical University of Munich, founding engineer at nemox, and head of Technology &amp; Operations at START Munich."
+      content="Mete Reis Kizildag — B.Sc. Computer Science at the Technical University of Munich, Managing Director of Technology &amp; Operations at START Munich, and former founding engineer at nemox."
     />
     <meta name="author" content="Mete Reis Kizildag" />
     <link rel="canonical" href="https://mrkizildag.github.io/" />
@@ -22,7 +22,7 @@
         "name": "Mete Reis Kizildag",
         "url": "https://mrkizildag.github.io/",
         "image": "https://mrkizildag.github.io/portrait.jpg",
-        "jobTitle": "Founding Engineer",
+        "jobTitle": "Managing Director, Technology & Operations",
         "email": "mailto:mrkizildag@gmail.com",
         "address": {
           "@type": "PostalAddress",
@@ -33,11 +33,6 @@
           "@type": "CollegeOrUniversity",
           "name": "Technical University of Munich",
           "url": "https://www.tum.de/en/"
-        },
-        "worksFor": {
-          "@type": "Organization",
-          "name": "nemox",
-          "url": "https://nemox.ai"
         },
         "memberOf": {
           "@type": "Organization",
@@ -315,12 +310,21 @@
         border-radius: 2px;
         background: transparent;
         color: var(--body);
-        font: inherit;
-        font-size: 0.8em;
-        line-height: 1;
-        padding: calc(var(--u) * 1) calc(var(--u) * 1.5);
+        line-height: 0;
+        padding: calc(var(--u) * 1);
         cursor: pointer;
         transition: border-color 120ms ease, color 120ms ease;
+      }
+
+      .theme svg {
+        display: block;
+        width: 16px;
+        height: 16px;
+      }
+
+      .theme[data-showing="dark"] .sun,
+      .theme[data-showing="light"] .moon {
+        display: none;
       }
 
       .theme:hover {
@@ -344,8 +348,16 @@
 
   <body>
     <!-- Hidden until the script runs: without JS it would be a dead control,
-         and its label is only correct once the scheme is known. -->
-    <button class="theme" type="button" hidden>Light</button>
+         and its icon is only correct once the scheme is known. -->
+    <button class="theme" type="button" hidden>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+      </svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+    </button>
 
     <main>
       <header>
@@ -367,14 +379,16 @@
 
       <p>
         I&rsquo;m a B.Sc. Computer Science student at the
-        <a href="https://www.tum.de/en/">Technical University of Munich</a> and a
-        founding engineer at <a href="https://nemox.ai">nemox</a>, building AI
-        tools for freight forwarders.
+        <a href="https://www.tum.de/en/">Technical University of Munich</a>.
+        Until September 2026 I was a founding engineer at
+        <a href="https://nemox.ai">nemox</a>, building AI tools for freight
+        forwarders.
       </p>
       <p>
-        I lead the Technology &amp; Operations Department at
-        <a href="https://www.startmunich.de/">START Munich</a>, building
-        software for Munich&rsquo;s leading entrepreneurship club.
+        As Managing Director of Technology &amp; Operations at
+        <a href="https://www.startmunich.de/">START Munich</a>, I lead a team of
+        seven building the software for Munich&rsquo;s leading entrepreneurship
+        club.
       </p>
 
       <hr class="rule" />
@@ -403,8 +417,8 @@
       // — including a change made while the page is open. The first manual
       // click pins a choice and the system stops governing from then on.
       //
-      // The label names the theme currently showing, not the one it switches
-      // to, so on a light system it reads "Light" before any interaction.
+      // The icon shows the theme currently showing, not the one it switches
+      // to, so on a light system it shows the sun before any interaction.
       (function () {
         var root = document.documentElement;
         var button = document.querySelector(".theme");
@@ -426,7 +440,7 @@
           if (mode) root.setAttribute("data-theme", mode);
           var dark = isDark();
           button.hidden = false;
-          button.textContent = dark ? "Dark" : "Light";
+          button.dataset.showing = dark ? "dark" : "light";
           button.setAttribute(
             "aria-label",
             dark ? "Dark theme. Switch to light." : "Light theme. Switch to dark."
